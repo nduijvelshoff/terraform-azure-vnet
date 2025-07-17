@@ -5,10 +5,35 @@ output "vnet" {
 
 output "subnets" {
   description = "contains subnet configuration"
-  value       = azurerm_subnet.subnets
+  value       = { for k, v in module.subnets : k => v.subnet }
 }
 
 output "network_security_group" {
   description = "contains network security group configuration"
-  value       = azurerm_network_security_group.nsg
+  value       = { for k, v in module.network_security_groups : k => v.network_security_group }
+}
+
+output "security_rules" {
+  description = "contains security rules configuration"
+  value       = { for k, v in module.network_security_groups : k => v.security_rules }
+}
+
+output "nsg_associations" {
+  description = "contains NSG association configuration"
+  value       = { for k, v in module.network_security_groups : k => v.nsg_associations }
+}
+
+output "route_tables" {
+  description = "contains route table configuration"
+  value       = { for k, v in module.route_tables : k => v.route_table }
+}
+
+output "routes" {
+  description = "contains routes configuration"
+  value       = { for k, v in module.route_tables : k => v.routes }
+}
+
+output "route_table_associations" {
+  description = "contains route table association configuration"
+  value       = { for k, v in module.route_tables : k => v.route_table_associations }
 }
